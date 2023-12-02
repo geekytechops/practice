@@ -19,9 +19,20 @@ app.get('/', (req, res) => {
 });
 
 app.get('/getData', (req, res) => {
-    fs.readFile('products.html', 'utf8', (err, fileContent) => {
-        res.send(fileContent);
-    });
+    var content='';
+    const readStream = fs.createReadStream('products.html', 'utf8');
+
+    readStream.on('data',(chunk)=>{
+        content+=chunk;
+    })
+    readStream.on('end',()=>{
+        res.send(content);
+        // content+=chunk;
+    })
+
+    // fs.readFile('products.html', 'utf8', (err, fileContent) => {
+    //     res.send(fileContent);
+    // });
 });
 app.post('/postData', async(req, res) => {
     // console.log(fs);
