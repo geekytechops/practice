@@ -2,6 +2,14 @@
 const express = require('express');
 const path = require('path');
 const fs=require('fs');
+const evtEmitter=require('events');
+
+const evtCalls=new evtEmitter();
+
+evtCalls.on('success',(msg)=>{
+    console.log(`server responded with message: ${msg}`);
+})
+
 
 const app = express();
 const port = 9595;
@@ -15,13 +23,13 @@ app.get('/getData', (req, res) => {
         res.send(fileContent);
     });
 });
-app.post('/postData', (req, res) => {
+app.post('/postData', async(req, res) => {
     // console.log(fs);
     fs.appendFile('products.html','<div><p>This is testing</p></div>', 'utf8', (err, fileContent) => {
-        console.log(fileContent);
+        evtCalls.emit('success','Data entered successfully');
     });
+   
 });
-
 
 
 app.listen(port, () => {
