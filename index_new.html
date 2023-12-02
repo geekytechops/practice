@@ -1,0 +1,28 @@
+<input type="button" value="getData" onclick="getData()">
+<input type="button" value="addData" onclick="addData()">
+<div id="ProdsData">
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+function getData(){
+    $.ajax({
+        type:'get',
+        url:'getData',
+        success:function(data){
+            $('#ProdsData').html(data);
+        }
+    })
+}
+function addData(){
+    $.ajax({
+        type:'post',
+        url:'postData',
+        data:{name:'test'},
+        success:function(data){
+            console.log(data);
+        }
+    })
+}
+</script>
